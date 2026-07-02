@@ -21,7 +21,7 @@ def obtener_conexion_mysql():
     return pymysql.connect(
         host="host.docker.internal",
         user="root",
-        password="tu_password_real_de_workbench",  # <-- Pon la contraseña real que usas en Workbench
+        password="demo",
         database="its_murialdo",
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True
