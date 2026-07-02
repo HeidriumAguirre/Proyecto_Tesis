@@ -12,27 +12,39 @@ from PIL import Image
 os.environ["GEMINI_API_KEY"] = "AIzaSyDSaoXY1w8cWFeVcfvcMjFX4NfygJSl9pk"
 
 # ================================================================
-# B. INICIALIZACIÓN DE COMPONENTES (Caché activada para rendimiento)
+# B. INICIALIZACIÓN OPTIMIZADA CON CACHÉ INDEPENDIENTE
 # ================================================================
+
 @str_visual.cache_resource
-def inicializar_componentes():
-    # MySQL relacional
-    db = pymysql.connect(
-        host="db_relacional", user="root", password="demo",
-        database="its_murialdo", cursorclass=pymysql.cursors.DictCursor,
+def obtener_conexion_mysql():
+    """Mantiene la conexión relacional activa sin duplicarla en cada clic."""
+    return pymysql.connect(
+        host="db_relacional",
+        user="root",
+        password="demo",
+        database="its_murialdo",
+        cursorclass=pymysql.cursors.DictCursor,
         autocommit=True
     )
-    # ChromaDB vectorial
-    chroma = chromadb.PersistentClient(path="./chroma_db")
-    collection = chroma.get_collection(name="mineduc_matematica")
-    # Gemini Generativa
-    ai = genai.Client()
-    return db, collection, ai
 
+@str_visual.cache_resource
+def obtener_cliente_chroma():
+    """Mantiene mapeados los índices vectoriales densos en memoria RAM."""
+    chroma = chromadb.PersistentClient(path="./chroma_db")
+    return chroma.get_collection(name="mineduc_matematica")
+
+@str_visual.cache_resource
+def obtener_cliente_gemini():
+    """Conserva la instancia del SDK generativo activa."""
+    return genai.Client()
+
+# Carga segura usando los recursos cacheados de Streamlit
 try:
-    db_connection, vector_collection, ai_client = inicializar_componentes()
+    db_connection = obtener_conexion_mysql()
+    vector_collection = obtener_cliente_chroma()
+    ai_client = obtener_cliente_gemini()
 except Exception as e:
-    str_visual.error(f"Error de inicialización: {str(e)}")
+    str_visual.error(f"Error crítico en capa de inicialización: {str(e)}")
     str_visual.stop()
 
 # ================================================================
@@ -273,7 +285,6 @@ for i, msg in enumerate(str_visual.session_state.messages):
                     let textoOriginal = '{texto_seguro}';
                     
                     // LIMPIEZA DE CARACTERES EN EL FRONTEND:
-                    // A. Quitamos los asteriscos, guiones, hashtags y tildes inversas de markdown
                     let textoLimpio = textoOriginal.replace(/[\\*#\\-_`]/g, "");
                     
                     // B. Filtramos emojis comunes de frutas y figuras para que no los deletree
