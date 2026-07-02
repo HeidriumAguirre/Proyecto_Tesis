@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: demo
       MYSQL_DATABASE: its_murialdo
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - its_rag_math_mysql_data:/var/lib/mysql
 
