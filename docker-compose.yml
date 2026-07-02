@@ -1,30 +1,24 @@
-version: '3.8'
-
 services:
-  # Contenedor A: Capa Relacional (MySQL)
   db_relacional:
     image: mysql:8.0
     container_name: mysql_its_math
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "demo"
-      MYSQL_DATABASE: "its_murialdo"
+      MYSQL_ROOT_PASSWORD: demo
+      MYSQL_DATABASE: its_murialdo
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - its_rag_math_mysql_data:/var/lib/mysql
 
-  # Contenedor B: Capa de Interfaz y Lógica (Streamlit)
   app_tutor:
     build: .
     container_name: streamlit_its_math
+    restart: always
     ports:
       - "8501:8501"
-    environment:
-      - GEMINI_API_KEY=AIzaSyDSaoXY1w8cWFeVcfvcMjFX4NfygJSl9pk
     depends_on:
       - db_relacional
-    volumes:
-      - .:/app
 
 volumes:
-  mysql_data:
+  its_rag_math_mysql_data:
