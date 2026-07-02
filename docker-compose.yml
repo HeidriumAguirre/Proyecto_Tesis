@@ -10,6 +10,8 @@ services:
       - "3307:3306"
     volumes:
       - its_rag_math_mysql_data:/var/lib/mysql
+      # AGREGA ESTA LÍNEA AQUÍ (Mapea tu archivo .sql real):
+      - ./data/schema.sql:/docker-entrypoint-initdb.d/init.sql
 
   app_tutor:
     build: .
@@ -17,9 +19,8 @@ services:
     restart: always
     ports:
       - "8501:8501"
-    depends_on:
-      - db_relacional
-    # AGREGA ESTAS DOS LÍNEAS AQUÍ ABAJO:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./chroma_db:/app/chroma_db
 

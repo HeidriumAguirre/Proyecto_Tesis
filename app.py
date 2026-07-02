@@ -17,11 +17,11 @@ os.environ["GEMINI_API_KEY"] = "AIzaSyDSaoXY1w8cWFeVcfvcMjFX4NfygJSl9pk"
 
 @str_visual.cache_resource
 def obtener_conexion_mysql():
-    """Mantiene la conexión relacional activa sin duplicarla en cada clic."""
+    """Mantiene la conexión relacional activa apuntando al MySQL de Windows."""
     return pymysql.connect(
-        host="db_relacional",
+        host="host.docker.internal",
         user="root",
-        password="demo",
+        password="tu_password_real_de_workbench",  # <-- Pon la contraseña real que usas en Workbench
         database="its_murialdo",
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True
