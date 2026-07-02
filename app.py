@@ -18,7 +18,7 @@ os.environ["GEMINI_API_KEY"] = "AIzaSyDSaoXY1w8cWFeVcfvcMjFX4NfygJSl9pk"
 def inicializar_componentes():
     # MySQL relacional
     db = pymysql.connect(
-        host="127.0.0.1", user="root", password="demo",
+        host="db_relacional", user="root", password="demo",
         database="its_murialdo", cursorclass=pymysql.cursors.DictCursor,
         autocommit=True
     )
