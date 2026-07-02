@@ -1,0 +1,8 @@
+[project]
+name = "its-rag-math"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.14"
+dependencies = [
+    "streamlit-mic-recorder>=0.0.8",
+]
