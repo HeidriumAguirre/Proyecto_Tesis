@@ -12,7 +12,7 @@ from database.connection import test_internal_connection
 # CONFIGURACIONES DE CONEXIÓN Y CLIENTES
 # ================================================================
 db_connection = pymysql.connect(
-    host="127.0.0.1",
+    host="db_relacional",
     user="root",
     password="demo",
     database="its_murialdo",
