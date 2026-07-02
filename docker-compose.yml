@@ -19,6 +19,9 @@ services:
       - "8501:8501"
     depends_on:
       - db_relacional
+    # AGREGA ESTAS DOS LÍNEAS AQUÍ ABAJO:
+    volumes:
+      - ./chroma_db:/app/chroma_db
 
 volumes:
   its_rag_math_mysql_data:

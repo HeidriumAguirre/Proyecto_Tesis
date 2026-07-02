@@ -31,7 +31,8 @@ def obtener_conexion_mysql():
 def obtener_cliente_chroma():
     """Mantiene mapeados los índices vectoriales densos en memoria RAM."""
     chroma = chromadb.PersistentClient(path="./chroma_db")
-    return chroma.get_collection(name="mineduc_matematica")
+    # CAMBIA ESTO: Usa get_or_create_collection para que no explote si no existe
+    return chroma.get_or_create_collection(name="mineduc_matematica")
 
 @str_visual.cache_resource
 def obtener_cliente_gemini():
