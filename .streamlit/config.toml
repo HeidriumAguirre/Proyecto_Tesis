@@ -1,0 +1,27 @@
+[server]
+headless = true
+address = "0.0.0.0"
+port = 8501
+sslCertFile = "/app/certs/server.crt"
+sslKeyFile = "/app/certs/server.key"
+enableCORS = false
+enableXsrfProtection = false
+maxUploadSize = 10
+fileWatcherType = "none"
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "light"
+primaryColor = "#0F2C59"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F8F9FA"
+textColor = "#111111"
+font = "sans serif"
+
+[client]
+showErrorDetails = false
+
+[logger]
+level = "info"

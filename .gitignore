@@ -3,3 +3,13 @@ chroma_db/
 data/mineduc_pdfs/
 __pycache__/
 .venv/
+
+# Secretos y configuración local
+.env
+*.crt
+*.key
+docker/certs/
+
+# Certs autofirmados locales
+.streamlit/secrets.toml
+

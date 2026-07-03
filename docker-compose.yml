@@ -2,27 +2,52 @@ services:
   db_relacional:
     image: mysql:8.0
     container_name: mysql_its_math
-    restart: always
+    restart: on-failure
     environment:
-      MYSQL_ROOT_PASSWORD: demo
-      MYSQL_DATABASE: its_murialdo
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-demo}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-its_murialdo}
     ports:
-      - "3307:3306"
+      - "${MYSQL_PORT:-3306}:3306"
     volumes:
-      - its_rag_math_mysql_data:/var/lib/mysql
-      # AGREGA ESTA LÍNEA AQUÍ (Mapea tu archivo .sql real):
-      - ./data/schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+      - ./data/schema.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-demo}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - its_net
 
   app_tutor:
     build: .
     container_name: streamlit_its_math
-    restart: always
+    restart: on-failure
+    depends_on:
+      db_relacional:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      MYSQL_HOST: db_relacional
+      MYSQL_PORT: "3306"
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD:-demo}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-its_murialdo}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     ports:
-      - "8501:8501"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "${STREAMLIT_SERVER_PORT:-8501}:8501"
     volumes:
-      - ./chroma_db:/app/chroma_db
+      - chroma_data:/app/chroma_db
+      - ./docker/certs:/app/certs:ro
+    networks:
+      - its_net
 
 volumes:
-  its_rag_math_mysql_data:
+  mysql_data:
+  chroma_data:
+
+networks:
+  its_net:
+    driver: bridge

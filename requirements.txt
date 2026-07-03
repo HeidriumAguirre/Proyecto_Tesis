@@ -1,5 +1,11 @@
 streamlit==1.58.0
 pymysql==1.1.1
 chromadb==0.5.3
-google-genai
+google-genai==1.0.0
 pillow==12.3.0
+streamlit-mic-recorder==0.0.8
+python-dotenv==1.0.1
+tenacity==9.0.0
+langchain-community==0.3.18
+langchain-text-splitters==0.3.6
+pypdf==5.1.0

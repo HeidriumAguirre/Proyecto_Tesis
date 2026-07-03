@@ -1,132 +1,132 @@
-import chromadb
+"""
+Script CLI para probar el flujo ITS sin levantar Streamlit.
+Uso: python main.py
+"""
+import os
+import sys
+import logging
+
 import pymysql
-from google import genai  # <-- NUEVA LIBRERÍA OFICIAL
+import chromadb
+from google import genai
 
-from database.connection import test_internal_connection
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-#================================================================
-# Conexion a web localhost: uv run streamlit run app.py
-#================================================================
+from core.config import (  # noqa: E402
+    GEMINI_API_KEY,
+    MYSQL_DATABASE,
+    MYSQL_HOST,
+    MYSQL_PASSWORD,
+    MYSQL_PORT,
+    MYSQL_USER,
+)
+from core.prompts import system_instruction_socratico  # noqa: E402
+from core.retries import conectar_con_reintentos  # noqa: E402
 
-# ================================================================
-# CONFIGURACIONES DE CONEXIÓN Y CLIENTES
-# ================================================================
-db_connection = pymysql.connect(
-    host="db_relacional",
-    user="root",
-    password="demo",
-    database="its_murialdo",
-    cursorclass=pymysql.cursors.DictCursor,
-    autocommit=True
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger("its_rag_math.cli")
+
+
+db_connection = conectar_con_reintentos(
+    host=MYSQL_HOST,
+    port=MYSQL_PORT,
+    user=MYSQL_USER,
+    password=MYSQL_PASSWORD,
+    database=MYSQL_DATABASE,
 )
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 vector_collection = chroma_client.get_collection(name="mineduc_matematica")
 
-# Inicializamos el cliente de Gemini (Leerá la API KEY desde las variables de entorno)
-# Para pruebas locales directas, puedes pasarla como: client = genai.Client(api_key="TU_API_KEY")
-ai_client = genai.Client()
+ai_client = genai.Client(api_key=GEMINI_API_KEY)
 
-# ================================================================
-# CAPAS DE DATOS (MYSQL Y CHROMADB)
-# ================================================================
-def obtener_contexto_estudiante_pie(rut_estudiante):
+
+def obtener_contexto_estudiante_pie(rut_estudiante: str) -> dict | None:
     cursor = db_connection.cursor()
     query = """
-            SELECT e.id_estudiante, e.nombre_completo, e.curso,
-                   e.nivel_adaptacion_lenguaje, e.requiere_apoyo_pictorico,
-                   GROUP_CONCAT(d.codigo SEPARATOR ', ') as diagnosticos
-            FROM estudiante_pie e
-                     LEFT JOIN estudiante_diagnostico ed ON e.id_estudiante = ed.id_estudiante
-                     LEFT JOIN diagnostico d ON ed.id_diagnostico = d.id_diagnostico
-            WHERE e.rut = %s
-            GROUP BY e.id_estudiante; \
-            """
+        SELECT e.id_estudiante, e.nombre_completo, e.curso,
+               e.nivel_adaptacion_lenguaje, e.requiere_apoyo_pictorico,
+               GROUP_CONCAT(d.codigo SEPARATOR ', ') AS diagnosticos
+        FROM estudiante_pie e
+        LEFT JOIN estudiante_diagnostico ed ON e.id_estudiante = ed.id_estudiante
+        LEFT JOIN diagnostico d ON ed.id_diagnostico = d.id_diagnostico
+        WHERE e.rut = %s
+        GROUP BY e.id_estudiante;
+    """
     cursor.execute(query, (rut_estudiante,))
-    perfil = cursor.fetchone()
-    cursor.close()
-    return perfil
+    return cursor.fetchone()
 
-def buscar_andamiaje_curricular(consulta_estudiante, curso_filtrar, tipo_documento):
+
+def buscar_andamiaje_curricular(consulta: str, curso: str, tipo_documento: str) -> str:
     resultados = vector_collection.query(
-        query_texts=[consulta_estudiante],
+        query_texts=[consulta],
         n_results=3,
-        where={
-            "$and": [
-                {"curso": curso_filtrar},
-                {"tipo": tipo_documento}
-            ]
-        }
+        where={"$and": [{"curso": curso}, {"tipo": tipo_documento}]},
     )
-    return resultados
+    docs = resultados.get("documents", [[]])[0]
+    return "\n".join(docs) if docs else ""
 
-# ================================================================
-# ORQUESTADOR CON GENERACIÓN INTERACTIVA (LLM)
-# ================================================================
-def simular_interaccion_tutor(rut_alumno, pregunta_matematica):
+
+def simular_interaccion_tutor(rut_alumno: str, pregunta_matematica: str) -> None:
     print("=" * 70)
-    print("           SISTEMA DE TUTORÍA INTELIGENTE INCLUSIVO (ITS)")
+    print("           SISTEMA DE TUTORIA INTELIGENTE INCLUSIVO (ITS)")
     print("=" * 70)
 
     alumno = obtener_contexto_estudiante_pie(rut_alumno)
     if not alumno:
-        print(f"[-] Error: No se encontró registro PIE para el RUT {rut_alumno}")
+        print(f"[-] Error: No se encontro registro PIE para el RUT {rut_alumno}")
         return
 
-    print(f"[✔] Alumno: {alumno['nombre_completo']} | Nivel: {alumno['curso']} | PIE: {alumno['diagnosticos']}")
-    print("-" * 70)
-    print(f"👦 Estudiante: \"{pregunta_matematica}\"")
-    print("-" * 70)
-
-    # 1. Recuperación RAG (Buscamos en la Guía del Docente de 2° Básico)
-    bloques_recuperados = buscar_andamiaje_curricular(
-        consulta_estudiante=pregunta_matematica,
-        curso_filtrar=alumno['curso'],
-        tipo_documento="Guia_Docente"
+    nombre = alumno["nombre_completo"]
+    print(
+        f"[OK] Alumno: {nombre} | Nivel: {alumno['curso']} | PIE: {alumno['diagnosticos']}"
     )
-    contexto_pedagogico = "\n".join(bloques_recuperados['documents'][0])
+    print("-" * 70)
+    print(f"Estudiante: \"{pregunta_matematica}\"")
+    print("-" * 70)
 
-    # 2. Inyección y Ensamblaje del Prompt Adaptativo
-    instructions = f"""
-    Eres el Tutor Inteligente de Matemáticas del Colegio San Leonardo Murialdo.
-    Atiendes a un alumno con Diagnóstico PIE: {alumno['diagnosticos']}.
-    Nivel de Adaptación de Lenguaje: {alumno['nivel_adaptacion_lenguaje']}.
-    Requiere Apoyo Pictórico: {alumno['requiere_apoyo_pictorico']}.
+    contexto_pedagogico = buscar_andamiaje_curricular(
+        consulta_estudiante=pregunta_matematica,
+        curso_filtrar=alumno["curso"],
+        tipo_documento="Guia_Docente",
+    )
 
-    REGLAS DE ORO:
-    1. Método SOCRÁTICO estricto: Jamás des el número del resultado. Guíalo con preguntas cortas.
-    2. Si el nivel de adaptación es 'Alto', usa frases muy simples, claras y de máximo dos líneas por instrucción. No satures con texto largo.
-    3. Si 'Requiere Apoyo Pictórico' es 1, dibuja diagramas sencillos con caracteres planos (ej: [■ ■ ■] o [O O O]) para representar las cantidades concretas que menciona su problema.
-    
-    Usa este contexto técnico del Mineduc para estructurar tu guía paso a paso:
-    {contexto_pedagogico}
-    """
+    instructions = system_instruction_socratico(
+        nombre=nombre,
+        diagnosticos=alumno.get("diagnosticos") or "",
+        nivel_adaptacion=alumno.get("nivel_adaptacion_lenguaje") or "",
+        requiere_apoyo_pictorico=bool(alumno.get("requiere_apoyo_pictorico")),
+        contexto_pedagogico=contexto_pedagogico,
+    )
 
-    print("[*] Enviando Prompt Adaptativo al motor de inferencia GenAI...")
+    print("[*] Enviando prompt adaptativo al motor de inferencia GenAI...")
 
     try:
-        # 3. Llamada al modelo oficial optimizado y rápido (Gemini 2.5 Flash)
         response = ai_client.models.generate_content(
-            model='gemini-2.5-flash',
+            model="gemini-2.5-flash",
             contents=pregunta_matematica,
             config=genai.types.GenerateContentConfig(
                 system_instruction=instructions,
-                temperature=0.3 # Baja temperatura para evitar alucinaciones matemáticas
-            )
+                temperature=0.3,
+            ),
         )
-
         print("-" * 70)
-        print(f"🤖 TUTOR IA SOCRÁTICO DICE:")
+        print("TUTOR IA SOCRATICO DICE:")
         print("-" * 70)
         print(response.text)
         print("=" * 70)
-
     except Exception as e:
-        print(f"[-] Error en la llamada al modelo de IA: {str(e)}")
-        print("[!] Asegúrate de configurar tu API Key de Google GenAI.")
+        print(f"[-] Error en la llamada al modelo de IA: {e}")
+        print("[!] Verifica GEMINI_API_KEY en .env")
+
 
 if __name__ == "__main__":
-    if test_internal_connection():
-        rut_simulado = "25.123.456-7"
-        pregunta_test = "Tengo 12 manzanas y le doy 4 a mi primo, ¿cómo sé cuántas me quedan? No sé qué hacer."
-        simular_interaccion_tutor(rut_simulado, pregunta_test)
+    if "--test-connection" in sys.argv:
+        print("[OK] Conexion exitosa a MySQL.")
+        sys.exit(0)
+    rut_simulado = "25.123.456-7"
+    pregunta_test = "Tengo 12 manzanas y le doy 4 a mi primo, como se cuantas me quedan?"
+    simular_interaccion_tutor(rut_simulado, pregunta_test)

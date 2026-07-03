@@ -1,0 +1,6 @@
+.venv/
+chroma_db/
+data/mineduc_pdfs/
+.git/
+.idea/
+__pycache__/
