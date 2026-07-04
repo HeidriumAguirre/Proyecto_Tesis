@@ -872,12 +872,12 @@ def main() -> None:
                 db_connection, "estudiante_pie", "id_estudiante", st.session_state.estudiante.id_estudiante,
             )
         st.session_state.dua_nocturno = prefs.modo_nocturno
-        st.session_state.dua_filtro = prefs.filtro_luz
+        st.session_state.dua_filtro_pct = prefs.filtro_luz_pct
         st.session_state._dua_ultimo_json = prefs.to_json()
 
     aplicar_estilos(PreferenciasDUA(
         modo_nocturno=st.session_state.dua_nocturno,
-        filtro_luz=st.session_state.dua_filtro,
+        filtro_luz_pct=st.session_state.dua_filtro_pct,
     ))
 
     if tipo == "estudiante":
