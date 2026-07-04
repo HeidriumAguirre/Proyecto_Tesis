@@ -85,7 +85,7 @@ ALTER TABLE sesion_tutoria
 CREATE TABLE IF NOT EXISTS intento_login (
   id_intento  BIGINT       AUTO_INCREMENT PRIMARY KEY,
   email       VARCHAR(150) NOT NULL,
-  exitoso     TINYINT(1)   NOT NULL,
+  exitoso     TINYINT      NOT NULL,
   ip_origen   VARCHAR(45)  NULL,
   created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_intento_email_fecha (email, created_at)
