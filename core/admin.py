@@ -258,24 +258,32 @@ def crear_estudiante(
             """,
             (id_usuario, rut, nombre_completo, correo_electronico or None, "!"),
         )
-        # 2) Crear estudiante_pie
-        id_estudiante = str(uuid.uuid4())
+        # 2) Crear estudiante_pie (id_estudiante se genera por DEFAULT UUID() en la BD)
         cur.execute(
             """
             INSERT INTO estudiante_pie
-                (id_estudiante, id_usuario, rut, nombre_completo, correo_electronico,
+                (id_usuario, rut, nombre_completo, correo_electronico,
                  curso, curso_subdivision, nivel_adaptacion_lenguaje,
                  requiere_apoyo_pictorico, created_by_usuario)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
             (
-                id_estudiante, id_usuario, rut, nombre_completo, correo_electronico or None,
+                id_usuario, rut, nombre_completo, correo_electronico or None,
                 curso, curso_subdivision, nivel_adaptacion_lenguaje,
                 1 if requiere_apoyo_pictorico else 0, id_docente,
             ),
         )
     conn.commit()
-    return obtener_estudiante_por_id(conn, id_estudiante)  # type: ignore[return-value]
+    # Recuperar el id_estudiante generado por la BD (DEFAULT UUID())
+    row = ejecutar_query_segura(
+        conn,
+        "SELECT id_estudiante FROM estudiante_pie WHERE id_usuario = %s",
+        (id_usuario,),
+        fetch="one",
+    )
+    if not row:
+        raise RuntimeError("No se pudo recuperar el id_estudiante tras el INSERT")
+    return obtener_estudiante_por_id(conn, row["id_estudiante"])  # type: ignore[return-value]
 
 
 def actualizar_estudiante(
