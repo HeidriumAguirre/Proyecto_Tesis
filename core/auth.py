@@ -107,16 +107,16 @@ def autenticar_estudiante(conn, correo: str) -> SesionEstudiante | None:
             e.curso_subdivision,
             e.nivel_adaptacion_lenguaje,
             e.requiere_apoyo_pictorico,
-            GROUP_CONCAT(d.codigo SEPARATOR ', ') AS diagnosticos
+            (SELECT GROUP_CONCAT(d.codigo SEPARATOR ', ')
+             FROM estudiante_diagnostico ed
+             JOIN diagnostico d ON d.id_diagnostico = ed.id_diagnostico
+             WHERE ed.id_estudiante = e.id_estudiante) AS diagnosticos
         FROM usuario u
         JOIN estudiante_pie e ON e.id_usuario = u.id_usuario
-        LEFT JOIN estudiante_diagnostico ed ON ed.id_estudiante = e.id_estudiante
-        LEFT JOIN diagnostico d ON d.id_diagnostico = ed.id_diagnostico
         WHERE u.correo_electronico = %s
           AND u.rol = 'Estudiante'
           AND u.deleted_at IS NULL
           AND e.deleted_at IS NULL
-        GROUP BY u.id_usuario
     """
     try:
         row = ejecutar_query_segura(conn, sql, (correo.strip().lower(),), fetch="one")

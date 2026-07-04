@@ -49,12 +49,12 @@ def obtener_contexto_estudiante_pie(rut_estudiante: str) -> dict | None:
     query = """
         SELECT e.id_estudiante, e.nombre_completo, e.curso,
                e.nivel_adaptacion_lenguaje, e.requiere_apoyo_pictorico,
-               GROUP_CONCAT(d.codigo SEPARATOR ', ') AS diagnosticos
+               (SELECT GROUP_CONCAT(d.codigo SEPARATOR ', ')
+                FROM estudiante_diagnostico ed
+                JOIN diagnostico d ON ed.id_diagnostico = d.id_diagnostico
+                WHERE ed.id_estudiante = e.id_estudiante) AS diagnosticos
         FROM estudiante_pie e
-        LEFT JOIN estudiante_diagnostico ed ON e.id_estudiante = ed.id_estudiante
-        LEFT JOIN diagnostico d ON ed.id_diagnostico = d.id_diagnostico
-        WHERE e.rut = %s
-        GROUP BY e.id_estudiante;
+        WHERE e.rut = %s;
     """
     cursor.execute(query, (rut_estudiante,))
     return cursor.fetchone()
