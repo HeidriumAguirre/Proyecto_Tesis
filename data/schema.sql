@@ -416,10 +416,10 @@ INSERT INTO diagnostico (id_diagnostico, codigo, nombre_completo, descripcion) V
 
 INSERT INTO objetivo_aprendizaje
   (id_oa, codigo, descripcion, nivel_curso, unidad_tematica, eje) VALUES
-  (UUID(), 'MA01-OA01-1B', 'Contar numeros del 0 al 20 de uno en uno y de dos en dos, empezando por cualquier numero menor que 20.', '1_Basico', 'Numeros hasta 20', 'Numeros y operaciones'),
-  (UUID(), 'MA01-OA01-2B', 'Contar numeros del 0 al 100 de uno en uno y de diez en diez.', '2_Basico', 'Numeros hasta 100', 'Numeros y operaciones'),
-  (UUID(), 'MA01-OA01-3B', 'Contar numeros del 0 al 1000 y leerlos hasta 100.', '3_Basico', 'Numeros hasta 1000', 'Numeros y operaciones'),
-  (UUID(), 'MA01-OA01-4B', 'Contar numeros del 0 al 10000.', '4_Basico', 'Numeros hasta 10000', 'Numeros y operaciones');
+  (UUID(), 'MA1B-01', 'Contar numeros del 0 al 20 de uno en uno y de dos en dos, empezando por cualquier numero menor que 20.', '1_Basico', 'Numeros hasta 20', 'Numeros y operaciones'),
+  (UUID(), 'MA2B-01', 'Contar numeros del 0 al 100 de uno en uno y de diez en diez.', '2_Basico', 'Numeros hasta 100', 'Numeros y operaciones'),
+  (UUID(), 'MA3B-01', 'Contar numeros del 0 al 1000 y leerlos hasta 100.', '3_Basico', 'Numeros hasta 1000', 'Numeros y operaciones'),
+  (UUID(), 'MA4B-01', 'Contar numeros del 0 al 10000.', '4_Basico', 'Numeros hasta 10000', 'Numeros y operaciones');
 
 -- ================================================================
 -- DATOS SEMILLA - USUARIO DOCENTE (Educador PIE)
