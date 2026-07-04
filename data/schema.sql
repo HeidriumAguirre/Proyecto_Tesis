@@ -5,12 +5,17 @@
 -- Motor: MySQL 8.0+
 -- Codificación: UTF8MB4 (soporta tildes, ñ y emojis)
 --
--- EJECUCIÓN: este script es idempotente y seguro de correr sobre
--- una BD existente. Solo añade lo que falta; nunca borra datos.
--- Si la BD está vacía, crea todo desde cero.
+-- INSTRUCCIONES:
+--   1) Si tu BD ya existe, primero ELIMINALA con:
+--        DROP DATABASE IF EXISTS its_murialdo;
+--   2) Luego ejecuta este script completo.
+--   3) Credenciales semilla:
+--        Docente:    heidrium.aguirre@murialdo.cl  / Demo2026!
+--        Estudiante: mateo.gonzalez@murialdo.cl     (sin contrasena)
 -- ================================================================
 
-CREATE DATABASE IF NOT EXISTS its_murialdo
+DROP DATABASE IF EXISTS its_murialdo;
+CREATE DATABASE its_murialdo
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
@@ -19,7 +24,7 @@ USE its_murialdo;
 -- ----------------------------------------------------------------
 -- 1. USUARIO
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS usuario (
+CREATE TABLE usuario (
   id_usuario          CHAR(36)      NOT NULL DEFAULT (UUID()),
   rut                 VARCHAR(12)   NOT NULL,
   nombre_completo     VARCHAR(150)  NOT NULL,
@@ -43,7 +48,7 @@ CREATE TABLE IF NOT EXISTS usuario (
 -- ----------------------------------------------------------------
 -- 2. ESTUDIANTE_PIE
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS estudiante_pie (
+CREATE TABLE estudiante_pie (
   id_estudiante              CHAR(36)     NOT NULL DEFAULT (UUID()),
   id_usuario                 CHAR(36)     NULL,
   rut                        VARCHAR(12)  NOT NULL,
@@ -61,7 +66,7 @@ CREATE TABLE IF NOT EXISTS estudiante_pie (
                                'Medio',
                                'Bajo'
                              )            NOT NULL,
-  requiere_apoyo_pictorico   TINYINT(1)   NOT NULL DEFAULT 0,
+  requiere_apoyo_pictorico   TINYINT      NOT NULL DEFAULT 0,
   preferencias_dua           JSON         NULL,
   deleted_at                 TIMESTAMP    NULL,
   created_by_usuario         CHAR(36)     NULL,
@@ -84,7 +89,7 @@ CREATE TABLE IF NOT EXISTS estudiante_pie (
 -- ----------------------------------------------------------------
 -- 3. DIAGNOSTICO
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS diagnostico (
+CREATE TABLE diagnostico (
   id_diagnostico  CHAR(36)     NOT NULL DEFAULT (UUID()),
   codigo          VARCHAR(20)  NOT NULL,
   nombre_completo VARCHAR(150) NOT NULL,
@@ -95,9 +100,9 @@ CREATE TABLE IF NOT EXISTS diagnostico (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------------------------------------------
--- 4. ESTUDIANTE_DIAGNOSTICO (N:M)
+-- 4. ESTUDIANTE_DIAGNOSTICO (tabla intermedia N:M)
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS estudiante_diagnostico (
+CREATE TABLE estudiante_diagnostico (
   id_estudiante        CHAR(36) NOT NULL,
   id_diagnostico       CHAR(36) NOT NULL,
   fecha_asignacion     DATE     NOT NULL,
@@ -129,7 +134,7 @@ CREATE TABLE IF NOT EXISTS estudiante_diagnostico (
 -- ----------------------------------------------------------------
 -- 5. OBJETIVO_APRENDIZAJE
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS objetivo_aprendizaje (
+CREATE TABLE objetivo_aprendizaje (
   id_oa           CHAR(36)     NOT NULL DEFAULT (UUID()),
   codigo          VARCHAR(10)  NOT NULL,
   descripcion     TEXT         NOT NULL,
@@ -149,7 +154,7 @@ CREATE TABLE IF NOT EXISTS objetivo_aprendizaje (
 -- ----------------------------------------------------------------
 -- 6. SESION_TUTORIA
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS sesion_tutoria (
+CREATE TABLE sesion_tutoria (
   id_sesion                CHAR(36)     NOT NULL DEFAULT (UUID()),
   id_estudiante            CHAR(36)     NOT NULL,
   id_usuario               CHAR(36)     NULL,
@@ -163,7 +168,8 @@ CREATE TABLE IF NOT EXISTS sesion_tutoria (
                              'Completada',
                              'Abandonada'
                            )            NOT NULL DEFAULT 'Activa',
-  updated_at               TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  updated_at               TIMESTAMP    DEFAULT CURRENT_TIMESTAMP
+                                          ON UPDATE CURRENT_TIMESTAMP,
 
   CONSTRAINT pk_sesion_tutoria PRIMARY KEY (id_sesion),
 
@@ -189,7 +195,7 @@ CREATE TABLE IF NOT EXISTS sesion_tutoria (
 -- ----------------------------------------------------------------
 -- 7. RECURSO_MINEDUC
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS recurso_mineduc (
+CREATE TABLE recurso_mineduc (
   id_recurso        CHAR(36)     NOT NULL DEFAULT (UUID()),
   titulo_documento  VARCHAR(255) NOT NULL,
   tipo_documento    ENUM(
@@ -212,9 +218,9 @@ CREATE TABLE IF NOT EXISTS recurso_mineduc (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------------------------------------------
--- 8. HISTORIAL_INTERACCION (con bug de copia-pega corregido)
+-- 8. HISTORIAL_INTERACCION (bug del copy-paga original corregido)
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS historial_interaccion (
+CREATE TABLE historial_interaccion (
   id_interaccion    CHAR(36)  NOT NULL DEFAULT (UUID()),
   id_sesion         CHAR(36)  NOT NULL,
   id_recurso        CHAR(36)  NULL,
@@ -243,7 +249,7 @@ CREATE TABLE IF NOT EXISTS historial_interaccion (
 -- ----------------------------------------------------------------
 -- 9. PLAN_ADAPTACION
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS plan_adaptacion (
+CREATE TABLE plan_adaptacion (
   id_plan               CHAR(36)  NOT NULL DEFAULT (UUID()),
   id_estudiante         CHAR(36)  NOT NULL,
   id_educador           CHAR(36)  NOT NULL,
@@ -283,7 +289,7 @@ CREATE TABLE IF NOT EXISTS plan_adaptacion (
 -- ----------------------------------------------------------------
 -- 10. SUGERENCIA_PEDAGOGICA
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS sugerencia_pedagogica (
+CREATE TABLE sugerencia_pedagogica (
   id_sugerencia      CHAR(36)  NOT NULL DEFAULT (UUID()),
   id_estudiante      CHAR(36)  NOT NULL,
   id_usuario         CHAR(36)  NOT NULL,
@@ -320,21 +326,21 @@ CREATE TABLE IF NOT EXISTS sugerencia_pedagogica (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------------------------------------------
--- 11. INTENTO_LOGIN (rate limit, nuevo)
+-- 11. INTENTO_LOGIN (rate limit para login docente)
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS intento_login (
+CREATE TABLE intento_login (
   id_intento  BIGINT       AUTO_INCREMENT PRIMARY KEY,
   email       VARCHAR(150) NOT NULL,
-  exitoso     TINYINT(1)   NOT NULL,
+  exitoso     TINYINT      NOT NULL,
   ip_origen   VARCHAR(45)  NULL,
   created_at  TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_intento_email_fecha (email, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------------------------------------------
--- 12. AUDITORIA_DOCENTE (trazabilidad, nuevo)
+-- 12. AUDITORIA_DOCENTE (trazabilidad de acciones PIE)
 -- ----------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS auditoria_docente (
+CREATE TABLE auditoria_docente (
   id_auditoria        BIGINT       AUTO_INCREMENT PRIMARY KEY,
   id_usuario          CHAR(36)     NOT NULL,
   accion              VARCHAR(50)  NOT NULL,
@@ -345,10 +351,17 @@ CREATE TABLE IF NOT EXISTS auditoria_docente (
   INDEX idx_aud_usuario (id_usuario, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ----------------------------------------------------------------
+-- 13. SCHEMA_MIGRATION (control de migraciones)
+-- ----------------------------------------------------------------
+CREATE TABLE schema_migration (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  filename    VARCHAR(255) NOT NULL UNIQUE,
+  applied_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ================================================================
 -- ÍNDICES DE RENDIMIENTO
--- (los IF NOT EXISTS requieren MySQL 8.0.29+; si fallan, comenta
---  la linea y crearlos manualmente desde MySQL Workbench)
 -- ================================================================
 
 CREATE INDEX idx_sesion_estudiante
@@ -378,12 +391,14 @@ CREATE INDEX idx_ep_curso_subdivision
 CREATE INDEX idx_ep_correo
   ON estudiante_pie (correo_electronico);
 
+CREATE INDEX idx_usuario_correo
+  ON usuario (correo_electronico);
+
 -- ================================================================
 -- DATOS SEMILLA - DIAGNÓSTICOS BASE PIE
--- (idempotente: solo inserta si no existe el codigo)
 -- ================================================================
 
-INSERT IGNORE INTO diagnostico (id_diagnostico, codigo, nombre_completo, descripcion) VALUES
+INSERT INTO diagnostico (id_diagnostico, codigo, nombre_completo, descripcion) VALUES
   (UUID(), 'TEA',  'Trastorno del Espectro Autista',
    'Condicion del neurodesarrollo que afecta la comunicacion social y presenta patrones de conducta repetitivos.'),
   (UUID(), 'TDAH', 'Trastorno por Deficit de Atencion e Hiperactividad',
@@ -394,6 +409,91 @@ INSERT IGNORE INTO diagnostico (id_diagnostico, codigo, nombre_completo, descrip
    'Dificultades persistentes en lectura, escritura o matematicas sin causa sensorial o intelectual aparente.'),
   (UUID(), 'DL',   'Dificultad del Lenguaje',
    'Alteracion en la adquisicion y desarrollo del lenguaje oral que impacta la comprension y expresion.');
+
+-- ================================================================
+-- DATOS SEMILLA - OBJETIVOS DE APRENDIZAJE (1 por nivel)
+-- ================================================================
+
+INSERT INTO objetivo_aprendizaje
+  (id_oa, codigo, descripcion, nivel_curso, unidad_tematica, eje) VALUES
+  (UUID(), 'MA01-OA01-1B', 'Contar numeros del 0 al 20 de uno en uno y de dos en dos, empezando por cualquier numero menor que 20.', '1_Basico', 'Numeros hasta 20', 'Numeros y operaciones'),
+  (UUID(), 'MA01-OA01-2B', 'Contar numeros del 0 al 100 de uno en uno y de diez en diez.', '2_Basico', 'Numeros hasta 100', 'Numeros y operaciones'),
+  (UUID(), 'MA01-OA01-3B', 'Contar numeros del 0 al 1000 y leerlos hasta 100.', '3_Basico', 'Numeros hasta 1000', 'Numeros y operaciones'),
+  (UUID(), 'MA01-OA01-4B', 'Contar numeros del 0 al 10000.', '4_Basico', 'Numeros hasta 10000', 'Numeros y operaciones');
+
+-- ================================================================
+-- DATOS SEMILLA - USUARIO DOCENTE (Educador PIE)
+--   Contrasena: Demo2026!  (hash bcrypt rounds=12)
+-- ================================================================
+
+INSERT INTO usuario
+  (id_usuario, rut, nombre_completo, correo_electronico, clave_hash, rol)
+VALUES (
+  UUID(),
+  '16.234.567-8',
+  'Heidi Aguirrre Rivera',
+  'heidrium.aguirre@murialdo.cl',
+  '$2b$12$ss88pmpNDKdI51cIoK5MiOTTwBiWAb1oLQgPPZGmXOiq/EjFJH8.a',
+  'Educador_PIE'
+);
+
+-- ================================================================
+-- DATOS SEMILLA - USUARIO ESTUDIANTE
+--   Sin contrasena: el login es solo por correo.
+-- ================================================================
+
+INSERT INTO usuario
+  (id_usuario, rut, nombre_completo, correo_electronico, clave_hash, rol)
+VALUES (
+  UUID(),
+  '25.123.456-7',
+  'Mateo Gonzalez Perez',
+  'mateo.gonzalez@murialdo.cl',
+  '!',
+  'Estudiante'
+);
+
+-- ================================================================
+-- DATOS SEMILLA - PERFIL PIE DEL ESTUDIANTE
+-- ================================================================
+
+INSERT INTO estudiante_pie
+  (id_estudiante, id_usuario, rut, nombre_completo, correo_electronico,
+   curso, curso_subdivision, nivel_adaptacion_lenguaje, requiere_apoyo_pictorico)
+SELECT
+  UUID(),
+  u.id_usuario,
+  u.rut,
+  u.nombre_completo,
+  u.correo_electronico,
+  '1_Basico',
+  'A',
+  'Alto',
+  1
+FROM usuario u
+WHERE u.correo_electronico = 'mateo.gonzalez@murialdo.cl';
+
+-- ================================================================
+-- DATOS SEMILLA - VINCULACION ESTUDIANTE <-> DIAGNOSTICO TEA
+-- ================================================================
+
+INSERT INTO estudiante_diagnostico
+  (id_estudiante, id_diagnostico, fecha_asignacion, id_usuario_registro)
+SELECT
+  e.id_estudiante,
+  d.id_diagnostico,
+  CURDATE(),
+  (SELECT id_usuario FROM usuario WHERE correo_electronico = 'heidrium.aguirre@murialdo.cl' LIMIT 1)
+FROM estudiante_pie e
+CROSS JOIN diagnostico d
+WHERE e.correo_electronico = 'mateo.gonzalez@murialdo.cl'
+  AND d.codigo = 'TEA';
+
+-- ================================================================
+-- DATOS SEMILLA - MARCAR MIGRACION COMO APLICADA
+-- ================================================================
+
+INSERT INTO schema_migration (filename) VALUES ('001_init_its_rag_math.sql');
 
 -- ================================================================
 -- FIN DEL SCRIPT
