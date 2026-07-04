@@ -18,6 +18,21 @@
 USE its_murialdo;
 
 -- ================================================================
+-- PARTE 0: Tabla de control de migraciones (idempotente)
+-- La crea si no existe, asi el SQL es auto-suficiente tanto si lo
+-- corres desde Workbench como desde database/migrate.py.
+-- ================================================================
+
+CREATE TABLE IF NOT EXISTS schema_migration (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  filename    VARCHAR(255) NOT NULL UNIQUE,
+  applied_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Auto-registro: marca esta migracion como aplicada.
+INSERT IGNORE INTO schema_migration (filename) VALUES ('001_extension_auth_dua.sql');
+
+-- ================================================================
 -- PARTE 1: EXTENSION A `usuario` (sin perder datos)
 -- ================================================================
 
