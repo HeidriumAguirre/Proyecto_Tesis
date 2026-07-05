@@ -13,3 +13,6 @@ docker/certs/
 # Certs autofirmados locales
 .streamlit/secrets.toml
 
+# Backups de documentos de tesis (no versionados, solo conservados localmente)
+Informe/*.backup_*.docx
+
