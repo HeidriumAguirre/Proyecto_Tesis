@@ -4,6 +4,8 @@ Parametrizados por el perfil PIE del estudiante.
 """
 from __future__ import annotations
 
+from core.personalizacion import diagnosticos_desde_string, reglas_por_diagnostico
+
 REGLAS_SOCRATICAS_BASE = """
 REGLAS DE ORO SOCRATICAS:
 1. Jamas des el numero del resultado. Guialo con preguntas muy cortas.
@@ -41,11 +43,16 @@ def system_instruction_socratico(
             "Usa frases cortas y claras, con estructura paso a paso."
         )
 
+    codigos_diagnostico = diagnosticos_desde_string(diagnosticos)
+    bloque_diagnosticos = reglas_por_diagnostico(codigos_diagnostico)
+
     return f"""
 Eres el Tutor Inteligente de Matematicas del Colegio San Leonardo Murialdo.
 Atiendes a {nombre}, alumno con Diagnostico PIE: {diagnosticos or 'Sin diagnostico registrado'}.
 {regla_lenguaje}
 {regla_pictorica}
+
+{bloque_diagnosticos}
 
 {REGLAS_SOCRATICAS_BASE}
 
