@@ -10,15 +10,19 @@
 
 ---
 
+> **Documento de referencia para mostrar en reuniones con apoderados.**
+> Este archivo describe **qué datos se tratarán, con qué fines, bajo qué medidas de seguridad y qué derechos asisten al apoderado/a**. Para firmar la autorización, ver el documento `AUTORIZACION_TRATAMIENTO_DATOS.docx`.
+
+---
+
 ## 1. Antecedentes y marco normativo
 
 El presente contrato se suscribe en el marco del proyecto de tesis de pregrado señalado, y se rige por las siguientes disposiciones legales y reglamentarias chilenas:
 
 - **Ley N.° 19.628** sobre Protección de la Vida Privada y Protección de Datos de Carácter Personal.
 - **Decreto Supremo N.° 170/2009** del Ministerio de Educación, que fija normas para determinar los alumnos con necesidades educativas especiales que serán beneficiarios de la subvención educacional especial, y en particular sus disposiciones sobre confidencialidad de la información.
-- **Decreto Exento N.° 83/2015** del Ministerio de Educación, que aprueba criterios y orientaciones de adecuación curricular para estudiantes con necesidades educativas especiales.
+- **Decreto Exento N.° 83/2015** del Ministerio de Educación, que aprueba criterios y orientaciones de adecuación curricular para estudiantes con NEE.
 - **Ley N.° 20.422** sobre Igualdad de Oportunidades e Inclusión Social de Personas con Discapacidad.
-- **Ley N.° 19.284** sobre Integración Social de Personas con Discapacidad (derogada parcialmente pero referencial).
 - **Constitución Política de Chile**, artículo 19 N.° 4 (derecho a la vida privada) y N.° 24 (derecho de propiedad sobre datos personales).
 
 ---
@@ -32,28 +36,13 @@ Autorizar formalmente el tratamiento de **datos anonimizados de 4 estudiantes de
 ## 3. Partes
 
 ### 3.1 Investigadora (responsable del tratamiento)
-- **Nombre completo**: Heidrium Nauj Aguirre Andrades
-- **RUT**: [RUT de la tesista]
-- **Institución**: Universidad de Playa Ancha, Facultad de Ingeniería, Escuela de Ingeniería Civil Informática
-- **Domicilio institucional**: Av. Leopoldo Carvallo 270, Playa Ancha, Valparaíso
-- **Correo institucional**: heidrium.aguirre@alumnos.upla.cl
-- **Teléfono**: +56 X XXXX XXXX
+La responsable del tratamiento es la **tesista de Ingeniería Civil Informática de la Universidad de Playa Ancha** que ejecuta el proyecto. Sus datos identificativos completos (nombre, RUT, correo institucional y teléfono) figuran en el documento de autorización adjunto.
 
 ### 3.2 Establecimiento educacional (custodio de los datos originales)
-- **Nombre**: Colegio San Leonardo Murialdo de Valparaíso
-- **Representante legal**: [Nombre del sostenedor / representante legal]
-- **RUT institucional**: [RUT del colegio]
-- **Domicilio**: [Dirección del colegio]
-- **Correo institucional**: [Correo del colegio]
-- **Coordinadora PIE**: Carolina Yáñez (cyanez@murialdovalpo.cl)
+El **Colegio San Leonardo Murialdo de Valparaíso** actúa como custodio de los datos identificativos reales de los estudiantes, a través de su representante legal y de la **Coordinadora PIE** del establecimiento. Los datos identificativos completos del colegio y su representante figuran en el documento de autorización adjunto.
 
 ### 3.3 Apoderado/a (autorizante del estudiante)
-- **Nombre completo**: [Nombre del apoderado]
-- **RUT**: [RUT del apoderado]
-- **Domicilio**: [Dirección del apoderado]
-- **Correo de contacto**: [Correo del apoderado]
-- **Teléfono**: [Teléfono del apoderado]
-- **Estudiante asociado**: [Nombre del estudiante — RUT anonimizado]
+Es la persona natural que firma la autorización adjunta, en calidad de representante legal del estudiante PIE que participa en el piloto. Sus datos identificativos figuran en el mismo documento.
 
 ---
 
@@ -63,7 +52,7 @@ Autorizar formalmente el tratamiento de **datos anonimizados de 4 estudiantes de
 
 | Categoría | Campo específico | Tratamiento |
 |---|---|---|
-| Identificación | RUT anonimizado (ficticio, formato XX.XXX.XXX-X) | Reemplazo del RUT real por uno generado de forma aleatoria |
+| Identificación | RUT anonimizado (ficticio, formato XX.XXX.XXX-X) | Reemplazo del RUT real por uno generado aleatoriamente |
 | Identificación | Nombre de pila (solo nombre y primer apellido) | Seudonimización parcial |
 | Académica | Curso y subdivisión (A o B) | Tal cual |
 | Académica | Nivel de adaptación de lenguaje (Alto, Medio, Bajo) | Tal cual |
@@ -85,6 +74,7 @@ Autorizar formalmente el tratamiento de **datos anonimizados de 4 estudiantes de
 ### 4.3 Datos generados durante el piloto
 
 Durante el uso del prototipo se generará información de **interacción pedagógica** que se almacenará en la base de datos del sistema:
+
 - Mensajes escritos o transcritos de audio intercambiados con el tutor socrático.
 - Fecha, hora y duración de cada sesión.
 - Objetivo de aprendizaje (OA) consultado en cada sesión.
@@ -105,6 +95,7 @@ Los datos descritos en el punto 4 se utilizarán **exclusivamente** para:
 5. Publicar resultados agregados y anonimizados en la memoria de tesis y eventuales publicaciones académicas derivadas.
 
 **Queda expresamente prohibido**:
+
 - Re-identificar a los estudiantes a partir de los datos anonimizados.
 - Compartir los datos con terceros no involucrados en el proyecto.
 - Usar los datos con fines comerciales, publicitarios o de vigilancia.
@@ -164,6 +155,7 @@ En caso de revocación, los datos del estudiante serán **eliminados en un plazo
 ## 10. Confidencialidad de las partes
 
 Las partes firmantes se obligan a mantener la **más estricta confidencialidad** sobre:
+
 - Datos identificables de los estudiantes.
 - Diagnósticos clínicos específicos asociados a un estudiante.
 - Cualquier información que pudiera permitir re-identificar a un estudiante.
@@ -187,57 +179,14 @@ Cualquier controversia derivada del presente contrato será resuelta preferentem
 
 ---
 
-## Firmas
-
-### Investigadora
-
-| | |
-|---|---|
-| **Nombre** | Heidrium Nauj Aguirre Andrades |
-| **RUT** | [RUT] |
-| **Firma** | _________________________ |
-| **Fecha** | ___/___/______ |
-
-### Representante del Colegio
-
-| | |
-|---|---|
-| **Nombre** | [Nombre del sostenedor / representante legal] |
-| **Cargo** | [Cargo] |
-| **RUT** | [RUT] |
-| **Firma** | _________________________ |
-| **Fecha** | ___/___/______ |
-
-### Coordinadora PIE (testigo técnico)
-
-| | |
-|---|---|
-| **Nombre** | Carolina Yáñez |
-| **Cargo** | Coordinadora PIE — Colegio San Leonardo Murialdo |
-| **RUT** | [RUT] |
-| **Firma** | _________________________ |
-| **Fecha** | ___/___/______ |
-
-### Apoderado/a
-
-| | |
-|---|---|
-| **Nombre** | [Nombre del apoderado] |
-| **RUT** | [RUT] |
-| **Estudiante** | [Nombre del estudiante] |
-| **Firma** | _________________________ |
-| **Fecha** | ___/___/______ |
-
----
-
 **Versión 1.0** — Julio 2026
 **Documento elaborado en el marco del proyecto de tesis de pregrado en Ingeniería Civil Informática, Universidad de Playa Ancha.**
 
 ---
 
-## Anexo A — Plantilla del consentimiento simple (para reuniones de apoderados)
+## Anexo A — Resumen para el apoderado (1 carilla)
 
-Cuando se reúna a los apoderados, basta con entregarles este resumen简短 (1 carilla) antes de pedirles firma en el contrato completo:
+Cuando se reúna a los apoderados, basta con entregarles este resumen (1 carilla) antes de pedirles firma en el contrato completo:
 
 > **CONSENTIMIENTO INFORMADO — Resumen**
 >
