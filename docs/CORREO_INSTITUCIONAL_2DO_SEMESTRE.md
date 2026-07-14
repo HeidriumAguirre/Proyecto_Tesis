@@ -14,6 +14,8 @@
 - `Carta_Gantt_2do_Semestre_2026.pdf` — cronograma detallado
 - `PLANTILLA_INGESTA_ESTUDIANTES.csv` — formato de los datos solicitados
 - `Tesis_HeidriumAguirre_v3.docx` — estado actual del prototipo
+- `CONTRATO_CONFIDENCIALIDAD_DATOS.docx` — documento de referencia descriptivo (marco legal, datos, derechos). **No se firma**, se usa como base para la conversación con los apoderados.
+- `AUTORIZACION_TRATAMIENTO_DATOS.docx` — documento de **autorización firmable** por el colegio, la coordinadora PIE y el/la apoderado/a. Es el único que se firma.
 
 ---
 
@@ -30,6 +32,8 @@ Con el propósito de avanzar hacia la **etapa de pilotaje durante el segundo sem
 ## 1. Coordinación y obtención de autorizaciones
 
 Propongo agendar una **reunión presencial de kickoff la segunda semana de agosto** (por confirmar fecha según su disponibilidad) para presentar el prototipo en funcionamiento, validar la carta Gantt y coordinar la logística de las reuniones de apoderados necesarias para obtener los consentimientos informados de participación de los estudiantes.
+
+A estas reuniones asistiré personalmente con dos documentos impresos: el `CONTRATO_CONFIDENCIALIDAD_DATOS.docx` (para proyectar y explicar) y el `AUTORIZACION_TRATAMIENTO_DATOS.docx` (para que cada apoderado complete y firme al final). Carolina, si te parece bien, podemos definir un guion común de presentación de 5-10 minutos.
 
 ## 2. Set de datos anonimizados para la demo
 
@@ -51,6 +55,14 @@ Adjunto a este correo encontrarán el archivo **`PLANTILLA_INGESTA_ESTUDIANTES.c
 | `codigos_diagnostico` | TEA, TDAH, DIL, DEA o DL (separados por \|) | `TEA` o `TEA\|TDAH` |
 
 Los datos serán tratados conforme a la **Ley N.° 19.628 sobre Protección de Datos Personales** y utilizados únicamente para fines de validación académica del prototipo.
+
+**Sobre los documentos jurídicos adjuntos** (importante para F1.3 — reuniones de apoderados): incluyo **dos documentos Word diferenciados**:
+
+- `CONTRATO_CONFIDENCIALIDAD_DATOS.docx` es un **documento de referencia descriptivo** de 4 páginas. Resume el marco legal, los datos solicitados, las medidas de seguridad, los derechos del apoderado/a y las disposiciones finales. **No se firma**: sirve para que la Coordinadora PIE lo proyecte en las reuniones con los apoderados y resuelva dudas en base a él.
+
+- `AUTORIZACION_TRATAMIENTO_DATOS.docx` es el **documento que sí se firma**. Es de 2 páginas, con un solo párrafo de autorización en primera persona, una declaración de haber leído el contrato, y los 4 bloques de firma (Investigadora, Representante del Colegio, Coordinadora PIE como testigo técnico, y Apoderado/a). Incluye ya mis datos de contacto como tesista (RUT 21.063.023-6, correo institucional, teléfono). El apoderado completa solo su nombre, RUT y nombre del estudiante, y firma.
+
+Sugiero que en cada reunión con un apoderado, primero se proyecte el CONTRATO_CONFIDENCIALIDAD_DATOS (5-10 min explicando los puntos clave), se resuelvan dudas, y luego se pase a la firma del AUTORIZACION. El colegio queda con el original firmado de cada uno; yo me llevo una copia para archivar en la documentación de la tesis.
 
 ## 3. Pasantía en aula
 
