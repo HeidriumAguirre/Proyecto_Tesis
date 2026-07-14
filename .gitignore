@@ -17,3 +17,9 @@ docker/certs/
 *.backup_*.docx
 *Tesis_*.backup_*.docx
 
+# Archivos temporales de Office (locks y backups automaticos de Word)
+~$*.docx
+~$*.doc
+~$*.xlsx
+~$*.pptx
+
