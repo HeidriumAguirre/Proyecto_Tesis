@@ -31,13 +31,15 @@ Propongo agendar una **reunión presencial de kickoff la segunda semana de agost
 
 ## 2. Set de datos anonimizados para la demo
 
-En el marco del **Decreto Supremo N.° 170/2009** y el **Decreto Exento N.° 83/2015**, que regulan el resguardo de datos de estudiantes con Necesidades Educativas Especiales, solicito formalmente la entrega de un **set de fichas anonimizadas** de los estudiantes PIE de los cursos de 1° a 4° básico.
+En el marco del **Decreto Supremo N.° 170/2009** y el **Decreto Exento N.° 83/2015**, que regulan el resguardo de datos de estudiantes con Necesidades Educativas Especiales, solicito formalmente la entrega de un **set de fichas anonimizadas** de los estudiantes PIE del colegio.
 
-Adjunto a este correo encontrarán el archivo **`PLANTILLA_INGESTA_ESTUDIANTES.csv`** con la estructura exacta esperada. Las columnas requeridas son:
+**Alcance mínimo acordado con el colegio**: un estudiante por nivel, es decir, **4 estudiantes en total (uno de 1° Básico, uno de 2°, uno de 3° y uno de 4°)**, idealmente con **diagnósticos PIE distintos** (TEA, TDAH, DEA, DL, etc.) para validar la personalización del tutor. Si más apoderados se suman voluntariamente, el alcance se ampliará proporcionalmente.
+
+Adjunto a este correo encontrarán el archivo **`PLANTILLA_INGESTA_ESTUDIANTES.csv`** con la estructura exacta esperada y 4 filas de ejemplo. Las columnas requeridas son:
 
 | Columna | Descripción | Ejemplo |
 |---|---|---|
-| `rut_anonimizado` | RUT ficticio (formato XX.XXX.XXX-X) | `99.999.999-9` |
+| `rut_anonimizado` | RUT ficticio (formato XX.XXX.XXX-X) | `11.111.111-1` |
 | `nombre_pila` | Solo nombre y primer apellido | `Alumno A` |
 | `correo_academico` | Correo institucional del alumno | `alumno.a@murialdo.cl` |
 | `curso` | 1_Basico, 2_Basico, 3_Basico o 4_Basico | `1_Basico` |
@@ -64,7 +66,7 @@ Quedo a su disposición para agendar la reunión de coordinación en la fecha qu
 
 1. **Respuesta a este correo** confirmando recepción y disponibilidad para la reunión de kickoff (segunda semana de agosto).
 2. **Reunión presencial** donde presentaré el demo en vivo y entregaremos los consentimientos para los apoderados.
-3. **Entrega del archivo CSV anonimizado** durante septiembre (F2.2).
+3. **Entrega del archivo CSV anonimizado** con los 4 alumnos durante septiembre (F2.2).
 4. **Coordinación de fechas de pasantía** durante septiembre-octubre.
 
 Agradezco profundamente la disposición y el apoyo que el Colegio Murialdo ha brindado a este proyecto desde sus inicios, el cual representa una contribución concreta al desarrollo de la educación inclusiva en nuestra región.

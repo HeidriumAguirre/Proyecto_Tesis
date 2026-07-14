@@ -1,13 +1,5 @@
 rut_anonimizado,nombre_pila,correo_academico,curso,curso_subdivision,nivel_adaptacion,requiere_apoyo_pictorico,codigos_diagnostico
 11.111.111-1,Alumno A,alumno.a@murialdo.cl,1_Basico,A,Alto,1,TEA
-22.222.222-2,Alumno B,alumno.b@murialdo.cl,1_Basico,A,Medio,1,TDAH
-33.333.333-3,Alumno C,alumno.c@murialdo.cl,1_Basico,B,Bajo,0,DEA
-44.444.444-4,Alumno D,alumno.d@murialdo.cl,2_Basico,A,Alto,1,TEA|DL
-55.555.555-5,Alumno E,alumno.e@murialdo.cl,2_Basico,A,Medio,0,TDAH
-66.666.666-6,Alumno F,alumno.f@murialdo.cl,2_Basico,B,Bajo,1,DIL
-77.777.777-7,Alumno G,alumno.g@murialdo.cl,3_Basico,A,Alto,1,TEA|TDAH
-88.888.888-8,Alumno H,alumno.h@murialdo.cl,3_Basico,A,Medio,0,DEA
-99.999.999-9,Alumno I,alumno.i@murialdo.cl,3_Basico,B,Bajo,1,DL
-10.101.010-1,Alumno J,alumno.j@murialdo.cl,4_Basico,A,Alto,1,TEA
-11.111.111-2,Alumno K,alumno.k@murialdo.cl,4_Basico,A,Medio,1,TDAH
-12.121.212-1,Alumno L,alumno.l@murialdo.cl,4_Basico,B,Bajo,0,DEA|DIL
+22.222.222-2,Alumno B,alumno.b@murialdo.cl,2_Basico,B,Medio,1,TDAH
+33.333.333-3,Alumno C,alumno.c@murialdo.cl,3_Basico,A,Bajo,0,DEA
+44.444.444-4,Alumno D,alumno.d@murialdo.cl,4_Basico,B,Alto,1,DL

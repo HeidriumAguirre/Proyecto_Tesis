@@ -6,6 +6,8 @@
 
 ---
 
+**Alcance del piloto**: 4 estudiantes mínimo (uno por nivel: 1° a 4° básico), idealmente con diagnósticos PIE distintos. Si más apoderados se suman voluntariamente, el alcance se ampliará proporcionalmente.
+
 ## 1. Acceso al sistema
 
 Abra su navegador y vaya a la URL que le fue indicada por la tesista.
