@@ -17,6 +17,8 @@
 
 ---
 
+## Mensajes diferenciados (cada destinatario con su párrafo propio)
+
 Estimados Arnaldo, Carolina y Constanza:
 
 Espero que se encuentren bien. Me permito escribirles en el marco del proyecto de tesis de Ingeniería Civil Informática que vengo desarrollando en la Universidad de Playa Ancha bajo la guía del Dr. Franklin Johnson, cuyo objetivo es validar un Sistema de Tutoría Inteligente (ITS) con arquitectura RAG para fortalecer el aprendizaje procedimental de matemática en estudiantes del Programa de Integración Escolar (PIE) del Colegio San Leonardo Murialdo de Valparaíso.
@@ -60,11 +62,11 @@ Una vez completados los pasos anteriores, el prototipo será demostrado **en reu
 
 Las reuniones se coordinarían durante noviembre y diciembre, con un máximo de tres sesiones demostrativas. Al cierre de cada sesión se aplicará una **encuesta breve de satisfacción** para recoger feedback que permita ajustar el prototipo antes de la defensa de tesis.
 
-## 5. Consulta específica a Carolina — Revisión de descripciones diagnósticas
+## 5. Consultas específicas por destinatario
 
-Carolina, te escribo este punto aparte porque necesito tu ayuda experta como Coordinadora PIE para validar una decisión técnica del prototipo.
+### Para Carolina Yáñez — Coordinación PIE
 
-El sistema actualmente maneja cinco códigos de diagnóstico PIE en su base de datos, con las siguientes descripciones que tomé como referencia inicial de fuentes generales (literatura y Decreto 170/2009). Como la validez pedagógica del tutor socrático depende de que estas descripciones reflejen fielmente la realidad clínica que tú manejas día a día en el colegio, **te pido por favor corroborar o ajustar las siguientes descripciones** antes de pasar a producción:
+Carolina, dado que eres quien más conoce los perfiles PIE del colegio, te quisiera pedir orientación sobre un punto técnico del modelo de datos. En la base del prototipo tengo la siguiente tabla de diagnósticos (resumida):
 
 ```sql
 INSERT INTO diagnostico (id_diagnostico, codigo, nombre_completo, descripcion) VALUES
@@ -80,14 +82,23 @@ INSERT INTO diagnostico (id_diagnostico, codigo, nombre_completo, descripcion) V
    'Alteracion en la adquisicion y desarrollo del lenguaje oral que impacta la comprension y expresion.');
 ```
 
-**Preguntas concretas para tu revisión**:
+Mi pregunta concreta: **¿podrías indicarme dónde o con quién del equipo PIE puedo corroborar que estas descripciones son técnicamente correctas y se ajustan a la nomenclatura que usa el colegio en sus informes?** No es necesario que las revises tú, basta con que me orientes hacia el especialista interno o el protocolo institucional que utiliza el Programa de Integración para validar la terminología antes de cargar los datos. Esto es clave para que la personalización del tutor socrático se base en descripciones clínicamente válidas y no en simplificaciones que puedan afectar la fidelidad del piloto.
 
-1. ¿Las descripciones son **clínicamente precisas** para el contexto del Colegio Murialdo, o recomendarías ajustar alguna? (Por ejemplo, agregar comorbilidades frecuentes, matices del DSM-5, o énfasis en el ámbito escolar).
-2. ¿Falta algún código de diagnóstico PIE que atiendan regularmente y que debería estar en el sistema? (Por ejemplo: TEL, Trastorno Específico del Lenguaje; Asperger ya integrado en TEA; limitaciones motoras o sensoriales; etc.).
-3. ¿Hay descripciones que podrían ser **confidenciales o sensibles** para un sistema computacional que será auditado en una tesis pública? Si lo son, podemos omitirlas y dejar solo el código.
-4. ¿El término "Dificultad Intelectual Leve" (DIL) lo usan así en sus informes, o usan otra nomenclatura (por ejemplo, "Discapacidad Intelectual Leve" según DSM-5 actualizado)?
+### Para Arnaldo Maturana — Coordinación de Gestión Pedagógica
 
-Si tienes disponibilidad, podemos revisar este punto en la reunión de kickoff o puedes enviarme tus comentarios por este mismo correo. Tu validación es clave para que la personalización del tutor refleje la realidad PIE del colegio y no solo definiciones genéricas de internet.
+Arnaldo, en el F1.3 (reuniones con apoderados) y en el F4.3 (demos en reuniones) se requiere agendar bloques horarios. Te pediría apoyo para:
+
+- **Coordinar las reuniones de consentimiento con los apoderados** de los 4 cursos en septiembre, idealmente agrupando las reuniones por jornada para minimizar la carga administrativa.
+- **Aprobar el uso de las dependencias del colegio** (sala de reuniones, proyector, acceso a WiFi) para las 3 sesiones demostrativas de noviembre.
+
+### Para Constanza Fernández — Profesora de Matemática / Profesora Jefe
+
+Constanza, en el F3 (pasantía en aula) me sería muy útil contar con tu experiencia directa:
+
+- **Acompañarme en al menos una visita de observación** a un curso de matemática donde haya estudiantes PIE. Tu mirada docente me ayudaría a interpretar las estrategias de andamiaje que observes y a validar que las recomendaciones del tutor socrático no entren en conflicto con la planificación anual de la asignatura.
+- **Sugerir un problema real del libro o guía Mineduc** del nivel que visites, para usarlo como caso de prueba en el demo del F4. Con tu autorización, ese problema se cargaría a ChromaDB con metadatos del nivel y OA correspondiente.
+
+Si alguna de estas solicitudes queda fuera de tu alcance, quedo abierta a ajustarla en la reunión de kickoff.
 
 ## Próximos pasos
 
