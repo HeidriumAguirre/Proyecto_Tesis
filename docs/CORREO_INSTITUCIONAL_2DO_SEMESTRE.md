@@ -60,6 +60,35 @@ Una vez completados los pasos anteriores, el prototipo será demostrado **en reu
 
 Las reuniones se coordinarían durante noviembre y diciembre, con un máximo de tres sesiones demostrativas. Al cierre de cada sesión se aplicará una **encuesta breve de satisfacción** para recoger feedback que permita ajustar el prototipo antes de la defensa de tesis.
 
+## 5. Consulta específica a Carolina — Revisión de descripciones diagnósticas
+
+Carolina, te escribo este punto aparte porque necesito tu ayuda experta como Coordinadora PIE para validar una decisión técnica del prototipo.
+
+El sistema actualmente maneja cinco códigos de diagnóstico PIE en su base de datos, con las siguientes descripciones que tomé como referencia inicial de fuentes generales (literatura y Decreto 170/2009). Como la validez pedagógica del tutor socrático depende de que estas descripciones reflejen fielmente la realidad clínica que tú manejas día a día en el colegio, **te pido por favor corroborar o ajustar las siguientes descripciones** antes de pasar a producción:
+
+```sql
+INSERT INTO diagnostico (id_diagnostico, codigo, nombre_completo, descripcion) VALUES
+  (UUID(), 'TEA',  'Trastorno del Espectro Autista',
+   'Condicion del neurodesarrollo que afecta la comunicacion social y presenta patrones de conducta repetitivos.'),
+  (UUID(), 'TDAH', 'Trastorno por Deficit de Atencion e Hiperactividad',
+   'Condicion caracterizada por inatencion, hiperactividad e impulsividad que afecta el aprendizaje.'),
+  (UUID(), 'DIL',  'Dificultad Intelectual Leve',
+   'Funcionamiento intelectual significativamente por debajo del promedio con limitaciones en conducta adaptativa.'),
+  (UUID(), 'DEA',  'Dificultad Especifica del Aprendizaje',
+   'Dificultades persistentes en lectura, escritura o matematicas sin causa sensorial o intelectual aparente.'),
+  (UUID(), 'DL',   'Dificultad del Lenguaje',
+   'Alteracion en la adquisicion y desarrollo del lenguaje oral que impacta la comprension y expresion.');
+```
+
+**Preguntas concretas para tu revisión**:
+
+1. ¿Las descripciones son **clínicamente precisas** para el contexto del Colegio Murialdo, o recomendarías ajustar alguna? (Por ejemplo, agregar comorbilidades frecuentes, matices del DSM-5, o énfasis en el ámbito escolar).
+2. ¿Falta algún código de diagnóstico PIE que atiendan regularmente y que debería estar en el sistema? (Por ejemplo: TEL, Trastorno Específico del Lenguaje; Asperger ya integrado en TEA; limitaciones motoras o sensoriales; etc.).
+3. ¿Hay descripciones que podrían ser **confidenciales o sensibles** para un sistema computacional que será auditado en una tesis pública? Si lo son, podemos omitirlas y dejar solo el código.
+4. ¿El término "Dificultad Intelectual Leve" (DIL) lo usan así en sus informes, o usan otra nomenclatura (por ejemplo, "Discapacidad Intelectual Leve" según DSM-5 actualizado)?
+
+Si tienes disponibilidad, podemos revisar este punto en la reunión de kickoff o puedes enviarme tus comentarios por este mismo correo. Tu validación es clave para que la personalización del tutor refleje la realidad PIE del colegio y no solo definiciones genéricas de internet.
+
 ## Próximos pasos
 
 Quedo a su disposición para agendar la reunión de coordinación en la fecha que mejor les resulte. Para avanzar, sugiero el siguiente orden:

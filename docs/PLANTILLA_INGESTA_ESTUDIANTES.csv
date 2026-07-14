@@ -1,5 +1,5 @@
-rut_anonimizado,nombre_pila,correo_academico,curso,curso_subdivision,nivel_adaptacion,requiere_apoyo_pictorico,codigos_diagnostico
-11.111.111-1,Alumno A,alumno.a@murialdo.cl,1_Basico,A,Alto,1,TEA
-22.222.222-2,Alumno B,alumno.b@murialdo.cl,2_Basico,B,Medio,1,TDAH
-33.333.333-3,Alumno C,alumno.c@murialdo.cl,3_Basico,A,Bajo,0,DEA
-44.444.444-4,Alumno D,alumno.d@murialdo.cl,4_Basico,B,Alto,1,DL
+rut_anonimizado;nombre_pila;correo_academico;curso;curso_subdivision;nivel_adaptacion;"requiere_apoyo_pictorico (Si=1; No=0)";codigos_diagnostico
+11.111.111-1;Alumno A;alumno.a@murialdo.cl;1_Basico;A;Alto;1;TEA
+22.222.222-2;Alumno B;alumno.b@murialdo.cl;2_Basico;B;Medio;1;TDAH
+33.333.333-3;Alumno C;alumno.c@murialdo.cl;3_Basico;A;Bajo;0;DEA
+44.444.444-4;Alumno D;alumno.d@murialdo.cl;4_Basico;B;Alto;1;DL
