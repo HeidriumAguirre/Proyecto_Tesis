@@ -1,12 +1,12 @@
 """
 Genera el Contrato de Confidencialidad en formato Word (.docx) para
 el piloto del ITS PIE. Incluye:
-- Encabezado con el logo UPA en la esquina superior derecha
+- Encabezado con el logo UPlA en la esquina superior derecha
 - Texto del contrato en formato institucional
 - Bloque de firmas al final
 
-Si docs/assets/logo_upa.png no existe, usa un placeholder textual
-"LOGO UPA" en lugar de la imagen.
+Si docs/assets/logo_upla.png no existe, usa un placeholder textual
+"LOGO UPlA" en lugar de la imagen.
 
 Uso:
     python docs/build_contrato_docx.py
@@ -25,12 +25,12 @@ from docx.oxml.ns import qn
 from docx.shared import Cm, Inches, Pt, RGBColor
 
 ROOT = Path(__file__).resolve().parent.parent
-LOGO_PATH = ROOT / "docs" / "assets" / "logo_upa.png"
+LOGO_PATH = ROOT / "docs" / "assets" / "logo_upla.png"
 OUT_DOCX = ROOT / "docs" / "CONTRATO_CONFIDENCIALIDAD_DATOS.docx"
 
-# Colores institucionales UPA (azules)
-COLOR_UPA_AZUL = RGBColor(0x0F, 0x4C, 0x75)
-COLOR_UPA_CELESTE = RGBColor(0x4A, 0x9D, 0xC7)
+# Colores institucionales UPLA (azules)
+COLOR_UPLA_AZUL = RGBColor(0x0F, 0x4C, 0x75)
+COLOR_UPLA_CELESTE = RGBColor(0x4A, 0x9D, 0xC7)
 COLOR_GRIS = RGBColor(0x55, 0x55, 0x55)
 COLOR_NEGRO = RGBColor(0x10, 0x10, 0x10)
 
@@ -56,7 +56,7 @@ def set_cell_border(cell, **kwargs):
 
 
 def add_header_with_logo(doc):
-    """Crea un encabezado con el logo UPA alineado a la derecha."""
+    """Crea un encabezado con el logo UPlA alineado a la derecha."""
     section = doc.sections[0]
     header = section.header
 
@@ -96,9 +96,9 @@ def add_header_with_logo(doc):
         try:
             run.add_picture(str(LOGO_PATH), width=Cm(5.5))
         except Exception as exc:
-            p_right.add_run("[LOGO UPA - error al cargar: " + str(exc) + "]")
+            p_right.add_run("[LOGO UPLA - error al cargar: " + str(exc) + "]")
     else:
-        run = p_right.add_run("LOGO UPA\n(guardar imagen en docs/assets/logo_upa.png)")
+        run = p_right.add_run("LOGO UPLA\n(guardar imagen en docs/assets/logo_upla.png)")
         run.font.size = Pt(9)
         run.font.color.rgb = COLOR_GRIS
         run.italic = True
@@ -114,7 +114,7 @@ def add_title(doc, text):
     run = p.add_run(text)
     run.font.size = Pt(16)
     run.font.bold = True
-    run.font.color.rgb = COLOR_UPA_AZUL
+    run.font.color.rgb = COLOR_UPLA_AZUL
     p.paragraph_format.space_after = Pt(6)
     return p
 
@@ -135,7 +135,7 @@ def add_h1(doc, text):
     run = p.add_run(text)
     run.font.size = Pt(13)
     run.font.bold = True
-    run.font.color.rgb = COLOR_UPA_AZUL
+    run.font.color.rgb = COLOR_UPLA_AZUL
     p.paragraph_format.space_before = Pt(10)
     p.paragraph_format.space_after = Pt(4)
     return p
@@ -671,8 +671,8 @@ def build_docx() -> None:
     print(f"Tamano: {OUT_DOCX.stat().st_size} bytes")
     if not LOGO_PATH.exists():
         print(f"")
-        print(f"AVISO: Logo UPA no encontrado en {LOGO_PATH}")
-        print(f"  -> Guarda la imagen del logo UPA como docs/assets/logo_upa.png")
+        print(f"AVISO: Logo UPLA no encontrado en {LOGO_PATH}")
+        print(f"  -> Guarda la imagen del logo UPLA como docs/assets/logo_upla.png")
         print(f"  -> Vuelve a ejecutar este script para regenerar el Word con el logo")
 
 
