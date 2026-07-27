@@ -23,3 +23,10 @@ docker/certs/
 ~$*.xlsx
 ~$*.pptx
 
+# Backups automaticos del VPS (no versionar; son binarios grandes)
+scripts/backups/db/
+scripts/backups/chroma/
+
+# Caddy data y config del VPS (certificados TLS locales)
+docker/certs/
+

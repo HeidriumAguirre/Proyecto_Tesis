@@ -1,0 +1,61 @@
+# Caddyfile para ITS RAG Math
+# Reverse proxy con HTTPS automatico via Let's Encrypt.
+#
+# Configuracion:
+# 1) Reemplaza TUDO en mayusculas (DOMINIO, EMAIL) por tus valores reales.
+# 2) En desarrollo local sin dominio, usa el bloque "DEV" abajo.
+# 3) Para produccion, usa el bloque "PROD".
+
+# ======================================================================
+# PRODUCCION (VPS con dominio real y DNS apuntando al VPS)
+# ======================================================================
+DOMINIO.example.cl {
+    encode zstd gzip
+    reverse_proxy app_tutor:8501 {
+        # Streamlit requiere websockets para los reruns
+        transport http {
+            dial_timeout 30s
+            response_header_timeout 60s
+        }
+    }
+    # Streaming de respuestas largas (multimodal Gemini puede tardar)
+    flush_interval -1
+    # Limites de seguridad basicos
+    request_body {
+        max_size 50MB
+    }
+    # Headers de seguridad
+    header {
+        # HSTS: forzar HTTPS por 1 ano
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        # Anti-clickjacking
+        X-Frame-Options "SAMEORIGIN"
+        # Anti-MIME-sniffing
+        X-Content-Type-Options "nosniff"
+        # XSS Protection
+        X-XSS-Protection "1; mode=block"
+        # Referrer
+        Referrer-Policy "strict-origin-when-cross-origin"
+        # Quitar header Server
+        -Server
+    }
+    # Logging estructurado para observabilidad
+    log {
+        output file /data/access.log {
+            roll_size 100mb
+            roll_keep 5
+        }
+    }
+    email TU-EMAIL@example.cl
+}
+
+# ======================================================================
+# DESARROLLO (sin dominio, sin HTTPS)
+# Util cuando despliegas en un VPS sin dominio propio aun.
+# Usa HTTP en el puerto 80 (recomendable detras de un tunel como
+# cloudflared para tener HTTPS automatico sin abrir el puerto 443).
+# ======================================================================
+# :80 {
+#     encode zstd gzip
+#     reverse_proxy app_tutor:8501
+# }
